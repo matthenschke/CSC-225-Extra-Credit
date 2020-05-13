@@ -11,16 +11,30 @@ $(document).ready(function () {
     console.log(`http://openweathermap.org/img/w/${icon}.png`);
     var iconImg = $("<img>")
       .addClass("card-img")
-      .attr("src", `http://openweathermap.org/img/w/${icon}.png`);
+      .attr({
+        src: `http://openweathermap.org/img/w/${icon}.png`,
+        alt: "Weather icon",
+      });
     imageCol.append(iconImg);
     return imageCol;
   }
 
   function createCardBody() {
-    var cityName = currentWeather.name;
+    var bodyCol = $("<div>").addClass("col-8");
+    var cardBody = $("<div>").addClass("card-body");
+    var cityName = $("<p>").html(currentWeather.name);
+    cardBody.append(cityName);
+    bodyCol.append(cardBody);
+    return bodyCol;
   }
   function createWeatherCard() {
     var card = $("<div>").addClass("card mb-3").css("max-width", "540px");
+    var cardRow = $("<div>").addClass("row no-gutters");
+    var imageCol = createCardImage();
+    var bodyCol = createCardBody();
+    cardRow.append([imageCol, bodyCol]);
+    card.append(cardRow);
+    return card;
   }
 
   $("#zip-form").on("submit", function (e) {
@@ -32,7 +46,7 @@ $(document).ready(function () {
     $("#zip-code").val("");
 
     if (Number.isNaN(zip)) {
-      error = $("<small>")
+      error = $("<p>")
         .addClass("text-danger")
         .html("Please enter a numeric value of 5 digits");
       loading.remove();
@@ -55,7 +69,7 @@ $(document).ready(function () {
       .catch(function (err) {
         console.log(err);
         loading.remove();
-        error = $("<small>")
+        error = $("<p>")
           .addClass("text-danger")
           .html(err.response.data.message);
         $("#weather-info").append(error);
