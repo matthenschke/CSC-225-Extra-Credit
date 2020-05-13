@@ -1,3 +1,12 @@
+body {
+  background: linear-gradient(to right, #dd5e89, #f7bb97);
+  font-family: sans-serif;
+}
+
 #weather-info {
   margin-top: 50px;
+}
+
+img {
+  object-fit: cover;
 }
