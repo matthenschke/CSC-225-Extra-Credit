@@ -6,13 +6,13 @@ $(document).ready(function () {
 
   function createMainWeatherCol() {
     var mainCol = $("<div>").addClass(
-      "col-4 d-flex border-right justify-content-center flex-column align-items-center p-2"
+      "col border-right d-flex justify-content-center flex-column align-items-center p-2"
     );
 
     var temp = currentWeather.main.temp;
     var fahrenTemp = Math.floor(parseInt(temp) * 1.8 - 459.67);
     var tempText = $("<div>")
-      .addClass("display-4 mb-4")
+      .addClass("display-1 mb-1")
       .html(fahrenTemp + "&deg");
     var weather = currentWeather.weather[0];
     var weatherText = $("<h5>")
@@ -23,7 +23,7 @@ $(document).ready(function () {
   }
 
   function createCardBody() {
-    var bodyCol = $("<div>").addClass("col-8");
+    var bodyCol = $("<div>").addClass("col");
     var cardBody = $("<div>").addClass("card-body");
     var cardTitle = $("<h3>")
       .addClass("card-title")
@@ -106,23 +106,19 @@ $(document).ready(function () {
   $("#zip-form").on("submit", function (e) {
     e.preventDefault();
     var zip = parseInt($("#zip-code").val());
-    var error;
+    var error = $("<span>").addClass("error");
     $("#weather-info").empty();
     $("#weather-info").append(loading);
     $("#zip-code").val("");
 
     if (Number.isNaN(zip)) {
-      error = $("<h3>")
-        .addClass("text-danger")
-        .html("Please enter a numeric value of 5 digits");
+      error.html("Please enter a numeric value of 5 digits");
       loading.remove();
       $("#weather-info").append(error);
 
       return;
     }
-    // console.log(
-    //   `http://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${API_KEY}`
-    // );
+
     axios
       .get(
         `http://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${API_KEY}`
@@ -135,9 +131,7 @@ $(document).ready(function () {
       .catch(function (err) {
         var errMsg = err.response.data.message;
         loading.remove();
-        error = $("<h3>")
-          .addClass("text-danger")
-          .html(errMsg.charAt(0).toUpperCase() + errMsg.substring(1));
+        error.html(errMsg.charAt(0).toUpperCase() + errMsg.substring(1));
         $("#weather-info").append(error);
       });
   });

@@ -4,7 +4,7 @@ html {
 body {
   min-height: 100%;
   background: linear-gradient(to right, #dd5e89, #f7bb97);
-  font-family: sans-serif;
+  font-family: "Balsamiq Sans", cursive;
 }
 
 #weather-info {
@@ -12,5 +12,13 @@ body {
 }
 main {
   max-width: 1000px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.error {
+  padding: 5px 30px;
   background-color: white;
+  border: 1px solid white;
+  color: #e00000;
+  border-radius: 10px;
 }
