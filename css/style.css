@@ -22,3 +22,10 @@ main {
   color: #e00000;
   border-radius: 10px;
 }
+
+@media screen and (max-width: 576px) {
+  .error {
+    font-size: 0.7rem;
+    padding: 10px;
+  }
+}
