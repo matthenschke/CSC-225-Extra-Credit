@@ -6,16 +6,17 @@ $(document).ready(function () {
 
   function createMainWeatherCol() {
     var mainCol = $("<div>").addClass(
-      "col-4 d-flex justify-content-center flex-column align-items-center"
+      "col-4 d-flex border-right justify-content-center flex-column align-items-center p-2"
     );
+
     var temp = currentWeather.main.temp;
     var fahrenTemp = Math.floor(parseInt(temp) * 1.8 - 459.67);
     var tempText = $("<div>")
-      .addClass("display-1")
+      .addClass("display-4 mb-4")
       .html(fahrenTemp + "&deg");
     var weather = currentWeather.weather[0];
     var weatherText = $("<h5>")
-      .addClass("card-title ")
+      .addClass("card-title")
       .html(`Weather: ${weather.description}`);
     mainCol.append([tempText, weatherText]);
     return mainCol;
@@ -24,49 +25,68 @@ $(document).ready(function () {
   function createCardBody() {
     var bodyCol = $("<div>").addClass("col-8");
     var cardBody = $("<div>").addClass("card-body");
-    var cardTitle = $("<h3>").addClass("card-title").html(currentWeather.name);
+    var cardTitle = $("<h3>")
+      .addClass("card-title")
+      .html("<u>" + currentWeather.name + "</u>");
 
     var coord = currentWeather.coord;
-    var coordText = $("<h6>")
+    var longText = $("<h6>")
       .addClass("card-text")
-      .html(`Longitude: ${coord.lon}`);
-    var latText = $("<span>").addClass("pl-3").html(`Latitude: ${coord.lat}`);
-    coordText.append(latText);
+      .html(`Longitude: ${coord.lon}&deg`);
+    var latText = $("<h6>").html(`Latitude: ${coord.lat}&deg`);
+
+    var pressureText = $("<h6>")
+      .addClass("card-text")
+      .html(`Pressure: ${currentWeather.main.pressure} hPa`);
+    var humidityText = $("<h6>")
+      .addClass("card-text")
+      .html(`Humidity: ${currentWeather.main.humidity}%`);
+
+    var wind = currentWeather.wind;
+    var windSpeedText = $("<h6>")
+      .addClass("card-text")
+      .html(`Wind Speed: ${wind.speed} meter/sec`);
+    var windDegText = $("<h6>")
+      .addClass("card-text")
+      .html(`Wind Degrees: ${wind.deg}&deg`);
 
     var clouds = currentWeather.clouds;
     var cloudText = $("<h6>")
       .addClass("card-text")
       .html(`Cloudiness: ${clouds.all}%`);
 
-    var wind = currentWeather.wind;
-    var windSpeedText = $("<span>")
+    var sys = currentWeather.sys;
+    var sunriseText = $("<h6>")
       .addClass("card-text")
-      .html(`Wind Speed: ${wind.speed} meter/sec`);
-    var windDegText = $("<span>")
-      .addClass("card-text")
-      .html(`Wind Degrees: ${wind.deg} deg`);
-    // var d = new Date();
-    // localTime = d.getTime();
-    // localOffset = d.getTimezoneOffset() * 60000;
+      .html(
+        `Sunrise Time: ${new Date(sys.sunrise * 1000).toLocaleString("en-US", {
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+        })}`
+      );
 
-    // // obtain UTC time in msec
-    // utc = localTime + localOffset;
-    // // create new Date object for different city
-    // // using supplied offset
-    // var nd = new Date(utc + (3600000*offset));
-    // //nd = 3600000 + nd;
-    // utc = new Date(utc);
-    // // return time as a string
-    // $("#local").html(nd.toLocaleString());
-    // $("#utc").html(utc.toLocaleString());
+    var sunsetText = $("<h6>")
+      .addClass("card-text")
+      .html(
+        `Sunset Time: ${new Date(sys.sunset * 1000).toLocaleString("en-US", {
+          hour12: true,
+          hour: "numeric",
+          minute: "numeric",
+        })}`
+      );
 
     cardBody.append([
       cardTitle,
-      coordText,
-
-      cloudText,
+      longText,
+      latText,
+      pressureText,
+      humidityText,
       windSpeedText,
       windDegText,
+      cloudText,
+      sunriseText,
+      sunsetText,
     ]);
     bodyCol.append(cardBody);
     return bodyCol;
@@ -100,7 +120,9 @@ $(document).ready(function () {
 
       return;
     }
-
+    // console.log(
+    //   `http://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${API_KEY}`
+    // );
     axios
       .get(
         `http://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${API_KEY}`
@@ -111,11 +133,11 @@ $(document).ready(function () {
         $("#weather-info").append(createWeatherCard());
       })
       .catch(function (err) {
-        console.log(err);
+        var errMsg = err.response.data.message;
         loading.remove();
         error = $("<h3>")
           .addClass("text-danger")
-          .html(err.response.data.message);
+          .html(errMsg.charAt(0).toUpperCase() + errMsg.substring(1));
         $("#weather-info").append(error);
       });
   });

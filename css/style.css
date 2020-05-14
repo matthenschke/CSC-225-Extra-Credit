@@ -1,4 +1,8 @@
+html {
+  height: 100vh;
+}
 body {
+  min-height: 100%;
   background: linear-gradient(to right, #dd5e89, #f7bb97);
   font-family: sans-serif;
 }
@@ -6,7 +10,7 @@ body {
 #weather-info {
   margin-top: 50px;
 }
-
-img {
-  object-fit: cover;
+main {
+  max-width: 1000px;
+  background-color: white;
 }

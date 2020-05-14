@@ -18,11 +18,13 @@
     <link rel="stylesheet" href="/css/style.css" />
     <title>Extra Credit</title>
   </head>
-  <body>
-    <h1 class="text-center my-5">
-      Get Your Zip Code Weather Here!
-    </h1>
-    <div class="d-flex flex-column align-items-center">
+  <body
+    class="d-flex flex-column align-items-center justify-content-center p-5"
+  >
+    <main class="p-5 rounded">
+      <h1 class="text-center my-5">
+        Get Your Zip Code Weather Here!
+      </h1>
       <form id="zip-form" class="d-flex flex-column align-items-center">
         <div class="form-group">
           <input
@@ -39,33 +41,8 @@
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-      <div class="text-center" id="weather-info">
-        <!-- <div class="card mb-3" style="max-width: 540px;">
-          <div class="row no-gutters">
-            <div class="col-4">
-              <img
-                src="http://openweathermap.org/img/w/01d.png"
-                class="card-img"
-                alt="..."
-              />
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. This content is a little bit
-                  longer.
-                </p>
-                <p class="card-text">
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </div>
-    </div>
+      <div class="text-center w-100 container" id="weather-info"></div>
+    </main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
